@@ -78,12 +78,18 @@ enum blink_state {
             CGContextBeginPath(context);
             CGContextAddRect(context, rect);
             CGContextClip(context);
-            CGContextDrawLayerAtPoint(context, rect.origin, gui_ios.layer);
+            CGRect bounds = CGRectMake(0, 0, 1024, 1024);
+
+
+            CGContextDrawLayerInRect(context, bounds, gui_ios.layer);
+//            CGContextDrawLayerAtPoint(context, rect.origin, gui_ios.layer);
             CGContextRestoreGState(context);
             gui_ios.dirtyRect = CGRectZero;
         }
     } else {
-        gui_ios.layer = CGLayerCreateWithContext(UIGraphicsGetCurrentContext(), CGSizeMake(1024.0f, 1024.0f), nil);
+        gui_ios.layer = CGLayerCreateWithContext(UIGraphicsGetCurrentContext(), CGSizeMake(2048.0f, 2048.0f), nil);
+        CGContextRef layerContext = CGLayerGetContext(gui_ios.layer);
+        CGContextScaleCTM(layerContext, 2, 2);
     }
 }
 
@@ -93,7 +99,16 @@ enum blink_state {
 }
 
 - (void)resizeShell {
-//    NSLog(@"Setting shell size to %d x %d", (int)self.bounds.size.width, (int)self.bounds.size.height);
+    NSLog(@"Setting shell size to %d x %d", (int)self.bounds.size.width, (int)self.bounds.size.height);
+    /*for (NSString* family in [UIFont familyNames])
+    {
+        NSLog(@"%@", family);
+        for(NSString* name in [UIFont fontNamesForFamilyName: family])
+        {
+            NSLog(@" %@",name);
+        }
+    }
+    */
     gui_resize_shell(self.bounds.size.width, self.bounds.size.height);
 }
 @end
@@ -103,17 +118,27 @@ enum blink_state {
 
 @interface VimViewController : UIViewController <UIKeyInput, UITextInputTraits> {
     VimTextView * _textView;
+    UIView * _dialogView;
+    UIActivityViewController * shareController;
     BOOL _hasBeenFlushedOnce;
 }
+
+
 @property (nonatomic, readonly) VimTextView * textView;
 - (void)resizeShell;
 - (void)flush;
 - (void)blinkCursorTimer:(NSTimer *)timer;
+
+@property (nonatomic, readonly) UIView * dialogView;
+
 @end
+
 
 @implementation VimViewController
 
 @synthesize textView = _textView;
+@synthesize dialogView = _dialogView;
+
 
 #pragma mark UIResponder
 - (BOOL)canBecomeFirstResponder {
@@ -132,15 +157,18 @@ enum blink_state {
 
     CGFloat statusBarHeight = [UIApplication sharedApplication].statusBarFrame.size.height;
     if (UIInterfaceOrientationIsLandscape([UIApplication sharedApplication].statusBarOrientation)) {
-        statusBarHeight = [UIApplication sharedApplication].statusBarFrame.size.width;
+        statusBarHeight = [UIApplication sharedApplication].statusBarFrame.size.height  ;
     }
-    CGFloat statusBarOffset = (floor(NSFoundationVersionNumber) <= NSFoundationVersionNumber_iOS_6_1) ? 0.0f : statusBarHeight;
+    //CGFloat statusBarOffset = statusBarHeight;
+    CGFloat statusBarOffset = statusBarHeight;
     _textView = [[VimTextView alloc] initWithFrame:CGRectMake(0.0f, statusBarOffset, self.view.bounds.size.width, self.view.bounds.size.height - statusBarOffset)];
+    NSLog(@"%f",self.view.bounds.size.height);
     _textView.autoresizingMask = (UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight);
     [self.view addSubview:_textView];
     [_textView release];
 
     _hasBeenFlushedOnce = NO;
+
 }
 
 - (void)viewDidLoad {
@@ -149,6 +177,10 @@ enum blink_state {
     UITapGestureRecognizer * tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(click:)];
     [_textView addGestureRecognizer:tapGestureRecognizer];
     [tapGestureRecognizer release];
+    
+    UILongPressGestureRecognizer * longPressGestureRecognizer = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPress:)];
+    [_textView addGestureRecognizer:longPressGestureRecognizer];
+    [longPressGestureRecognizer release];
 
     UIPanGestureRecognizer * panGestureRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(pan:)];
     panGestureRecognizer.minimumNumberOfTouches = 1;
@@ -169,6 +201,17 @@ enum blink_state {
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(keyboardWillBeHidden:)
                                                  name:UIKeyboardWillHideNotification object:nil];
+    
+    
+   // NSMutableArray *myArray = [NSMutableArray array];
+   // self.view.inputAssistantItem.trailingBarButtonGroups = myArray;
+  //  self.view.inputAssistantItem.leadingBarButtonGroups = myArray;
+  
+    UITextInputAssistantItem *inputAssistantItem = [self.view inputAssistantItem];
+    inputAssistantItem.leadingBarButtonGroups = @[];
+    inputAssistantItem.trailingBarButtonGroups = @[];
+    inputAssistantItem.allowsHidingShortcuts = TRUE;
+    
 }
 
 - (void)viewDidUnload {
@@ -210,12 +253,50 @@ enum blink_state {
     return UIKeyboardTypeDefault;
 }
 
+- (UITextAutocorrectionType)autocorrectionType {
+    return UITextAutocorrectionTypeNo;
+}
+
+
+- (void)documentPicker:(UIDocumentPickerViewController *)controller didPickDocumentAtURL:(NSURL *)url {
+    if (controller.documentPickerMode == UIDocumentPickerModeImport) {
+        NSString *alertMessage = [NSString stringWithFormat:@"Successfully imported %@", [url lastPathComponent]];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            UIAlertController *alertController = [UIAlertController
+                                                  alertControllerWithTitle:@"Import"
+                                                  message:alertMessage
+                                                  preferredStyle:UIAlertControllerStyleAlert];
+            [alertController addAction:[UIAlertAction actionWithTitle:@"Ok" style:UIAlertActionStyleDefault handler:nil]];
+            [self presentViewController:alertController animated:YES completion:nil];
+        });
+    }
+}
+
 #pragma mark VimViewController
 - (void)click:(UITapGestureRecognizer *)sender {
     [self becomeFirstResponder];
     CGPoint clickLocation = [sender locationInView:sender.view];
     gui_send_mouse_event(MOUSE_LEFT, clickLocation.x, clickLocation.y, 1, 0);
 }
+
+- (void)longPress:(UILongPressGestureRecognizer *)sender {
+    [self becomeFirstResponder];
+    CGPoint clickLocation = [sender locationInView:sender.view];
+    NSLog(@"Longpress");
+    maketitle();
+    /*UIDocumentPickerViewController *documentPicker = [[UIDocumentPickerViewController alloc] initWithDocumentTypes:@[@"public.image"]
+                                                                                                                inMode:UIDocumentPickerModeImport];
+    documentPicker.delegate = self;
+    documentPicker.modalPresentationStyle = UIModalPresentationFormSheet;
+    [self presentViewController:documentPicker animated:YES completion:nil];*/
+    
+    //do_cmdline_cmd
+    //NSURL *url = [self fileToURL:self.textView.];
+    //NSLOg(url.absoluteString);
+    
+}
+
+
 
 - (void)pan:(UIPanGestureRecognizer *)sender {
     CGPoint clickLocation = [sender locationInView:sender.view];
@@ -427,7 +508,11 @@ void CGLayerCopyRectToRect(CGLayerRef layer, CGRect sourceRect, CGRect targetRec
     CGContextBeginPath(context);
     CGContextAddRect(context, destinationRect);
     CGContextClip(context);
-    CGContextDrawLayerAtPoint(context, CGPointMake(destinationRect.origin.x - sourceRect.origin.x, destinationRect.origin.y - sourceRect.origin.y), layer);
+    CGSize size = CGLayerGetSize(layer);
+    
+    CGContextDrawLayerInRect(context, CGRectMake(destinationRect.origin.x - sourceRect.origin.x, destinationRect.origin.y - sourceRect.origin.y, size.width/2, size.height/2),layer);
+//    CGContextDrawLayerAtPoint(context, CGPointMake(destinationRect.origin.x - sourceRect.origin.x, destinationRect.origin.y - sourceRect.origin.y), layer);
+
     gui_ios.dirtyRect = CGRectUnion(gui_ios.dirtyRect, destinationRect);
     CGContextRestoreGState(context);
 }
@@ -960,7 +1045,7 @@ gui_mch_get_fontname(GuiFont font, char_u *name)
 gui_mch_init_font(char_u *font_name, int fontset) {
 //    printf("%s\n",__func__);
 
-    NSString * normalizedFontName = @"Courier";
+    NSString * normalizedFontName = @"Menlo";
     CGFloat normalizedFontSize = 14.0f;
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
         normalizedFontSize = 12.0f;
@@ -1344,7 +1429,27 @@ gui_mch_browse(
     char_u *initdir,
     char_u *filter)
 {
-//    printf("%s\n",__func__);  
+//    printf("%s\n",__func__);
+
+    
+    NSString *dir = [NSString stringWithFormat:@"%s", initdir];
+    NSString *file = [NSString stringWithFormat:@"%s", dflt];
+    NSString *path = [dir stringByAppendingString:file];
+    NSLog(@"path: %@",path);
+    NSURL *url = [NSURL fileURLWithPath:path];
+    
+    NSArray *objectsToShare = @[url];
+    UIDocumentInteractionController *controller = [UIDocumentInteractionController interactionControllerWithURL:url];
+
+    
+//    if ( [controller respondsToSelector:@selector(popoverPresentationController)] ) {
+        // iOS8
+  //      controller.popoverPresentationController.sourceView = gui_ios.view_controller.textView;
+    //}
+//    [gui_ios.view_controller presentViewController:controller animated:YES completion:nil];
+
+
+   [controller presentOptionsMenuFromRect:CGRectMake(100,100,100,100) inView:gui_ios.view_controller.view animated: NO];
     return NULL;    
 }
 #endif /* FEAT_BROWSE */
@@ -1625,6 +1730,7 @@ gui_mch_set_text_area_pos(int x, int y, int w, int h)
 }
 
 
+
 #ifdef FEAT_TITLE
 /*
  * Set the window title and icon.
@@ -1633,9 +1739,12 @@ gui_mch_set_text_area_pos(int x, int y, int w, int h)
     void
 gui_mch_settitle(char_u *title, char_u *icon)
 {
-//    printf("%s\n",__func__);  
+    int length = STRLEN(title);
+    NSLog(@"%s\n",__func__);
+    NSLog(@"Title %i", length);
 }
 #endif
+
 
 
     void

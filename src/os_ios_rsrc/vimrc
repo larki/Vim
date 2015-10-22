@@ -1,4 +1,6 @@
 " System vimrc file for Vim on iOS
 
+syntax on
 set nocompatible
 imap \ <Esc>
+set antialias

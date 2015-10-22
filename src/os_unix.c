@@ -2066,7 +2066,7 @@ mch_settitle(title, icon)
 	    set_x11_title(title);		/* x11 */
 #endif
 #if defined(FEAT_GUI_GTK) \
-	|| defined(FEAT_GUI_PHOTON) || defined(FEAT_GUI_MAC)
+	|| defined(FEAT_GUI_PHOTON) || defined(FEAT_GUI_MAC)||defined(FEAT_GUI_IOS)
 	else
 	    gui_mch_settitle(title, icon);
 #endif

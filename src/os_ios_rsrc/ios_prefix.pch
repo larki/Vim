@@ -10,6 +10,9 @@
 #define MACOS_X_UNIX 1
 #define ALWAYS_USE_GUI 1
 #define FEAT_GUI_SCROLL_WHEEL_FORCE 1
+#define FEAT_TITLE
+#define FEAT_GUI_IOS
+#define FEAT_BROWSE
 
 #define MODIFIED_BY "Applidium"
 

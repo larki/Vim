@@ -39,7 +39,7 @@
 		<string>VimIcon114.png</string>
 	</array>
 	<key>CFBundleIdentifier</key>
-	<string>com.applidium.${PRODUCT_NAME:rfc1034identifier}</string>
+	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
@@ -59,6 +59,10 @@
 	<key>UILaunchImageFile</key>
 	<string>default</string>
 	<key>UIPrerenderedIcon</key>
+	<true/>
+	<key>UIRequiresFullScreen</key>
+	<true/>
+	<key>UIStatusBarHidden~ipad</key>
 	<true/>
 	<key>UIStatusBarStyle</key>
 	<string>UIStatusBarStyleBlackOpaque</string>
@@ -109,7 +113,7 @@
 			<string>Plain Text File</string>
 			<key>UTTypeIdentifier</key>
 			<string>public.plain-text</string>
-                        <key>UTTypeSize320IconFile</key>
+			<key>UTTypeSize320IconFile</key>
 			<string>VimTypeIcon-320</string>
 			<key>UTTypeSize64IconFile</key>
 			<string>VimTypeIcon-64</string>
@@ -132,7 +136,7 @@
 			<string>TeX File</string>
 			<key>UTTypeIdentifier</key>
 			<string>org.vim.tex-file</string>
-                        <key>UTTypeSize320IconFile</key>
+			<key>UTTypeSize320IconFile</key>
 			<string>VimTypeIcon-320</string>
 			<key>UTTypeSize64IconFile</key>
 			<string>VimTypeIcon-64</string>
@@ -158,7 +162,7 @@
 			<string>C Header Source File</string>
 			<key>UTTypeIdentifier</key>
 			<string>public.c-header</string>
-                        <key>UTTypeSize320IconFile</key>
+			<key>UTTypeSize320IconFile</key>
 			<string>VimTypeIcon-320</string>
 			<key>UTTypeSize64IconFile</key>
 			<string>VimTypeIcon-64</string>
@@ -179,7 +183,7 @@
 			<string>C Precompiled Header Source File</string>
 			<key>UTTypeIdentifier</key>
 			<string>org.vim.pch-file</string>
-                        <key>UTTypeSize320IconFile</key>
+			<key>UTTypeSize320IconFile</key>
 			<string>VimTypeIcon-320</string>
 			<key>UTTypeSize64IconFile</key>
 			<string>VimTypeIcon-64</string>
@@ -200,7 +204,7 @@
 			<string>C++ Header Source File</string>
 			<key>UTTypeIdentifier</key>
 			<string>public.c-plus-plus-header</string>
-                        <key>UTTypeSize320IconFile</key>
+			<key>UTTypeSize320IconFile</key>
 			<string>VimTypeIcon-320</string>
 			<key>UTTypeSize64IconFile</key>
 			<string>VimTypeIcon-64</string>
@@ -225,7 +229,7 @@
 			<string>C++ Precompiled Header Source File</string>
 			<key>UTTypeIdentifier</key>
 			<string>org.vim.pch++-file</string>
-                        <key>UTTypeSize320IconFile</key>
+			<key>UTTypeSize320IconFile</key>
 			<string>VimTypeIcon-320</string>
 			<key>UTTypeSize64IconFile</key>
 			<string>VimTypeIcon-64</string>
@@ -246,7 +250,7 @@
 			<string>C Source File</string>
 			<key>UTTypeIdentifier</key>
 			<string>public.c-source</string>
-                        <key>UTTypeSize320IconFile</key>
+			<key>UTTypeSize320IconFile</key>
 			<string>VimTypeIcon-320</string>
 			<key>UTTypeSize64IconFile</key>
 			<string>VimTypeIcon-64</string>
@@ -267,7 +271,7 @@
 			<string>Objective-C Source File</string>
 			<key>UTTypeIdentifier</key>
 			<string>public.objective-c-source</string>
-                        <key>UTTypeSize320IconFile</key>
+			<key>UTTypeSize320IconFile</key>
 			<string>VimTypeIcon-320</string>
 			<key>UTTypeSize64IconFile</key>
 			<string>VimTypeIcon-64</string>
@@ -288,7 +292,7 @@
 			<string>Objective-C++ Source File</string>
 			<key>UTTypeIdentifier</key>
 			<string>public.objective-c-plus-plus-source</string>
-                        <key>UTTypeSize320IconFile</key>
+			<key>UTTypeSize320IconFile</key>
 			<string>VimTypeIcon-320</string>
 			<key>UTTypeSize64IconFile</key>
 			<string>VimTypeIcon-64</string>
@@ -309,7 +313,7 @@
 			<string>C++ Source File</string>
 			<key>UTTypeIdentifier</key>
 			<string>public.c-plus-plus-source</string>
-                        <key>UTTypeSize320IconFile</key>
+			<key>UTTypeSize320IconFile</key>
 			<string>VimTypeIcon-320</string>
 			<key>UTTypeSize64IconFile</key>
 			<string>VimTypeIcon-64</string>
@@ -334,7 +338,7 @@
 			<string>Assembly Source File</string>
 			<key>UTTypeIdentifier</key>
 			<string>public.assembly-source</string>
-                        <key>UTTypeSize320IconFile</key>
+			<key>UTTypeSize320IconFile</key>
 			<string>VimTypeIcon-320</string>
 			<key>UTTypeSize64IconFile</key>
 			<string>VimTypeIcon-64</string>
@@ -356,7 +360,7 @@
 			<string>Rez Source File</string>
 			<key>UTTypeIdentifier</key>
 			<string>com.apple.rez-source</string>
-                        <key>UTTypeSize320IconFile</key>
+			<key>UTTypeSize320IconFile</key>
 			<string>VimTypeIcon-320</string>
 			<key>UTTypeSize64IconFile</key>
 			<string>VimTypeIcon-64</string>
@@ -377,7 +381,7 @@
 			<string>Java Source File</string>
 			<key>UTTypeIdentifier</key>
 			<string>com.sun.java-source</string>
-                        <key>UTTypeSize320IconFile</key>
+			<key>UTTypeSize320IconFile</key>
 			<string>VimTypeIcon-320</string>
 			<key>UTTypeSize64IconFile</key>
 			<string>VimTypeIcon-64</string>
@@ -399,7 +403,7 @@
 			<string>Lex Source File</string>
 			<key>UTTypeIdentifier</key>
 			<string>com.apple.xcode.lex-source</string>
-                        <key>UTTypeSize320IconFile</key>
+			<key>UTTypeSize320IconFile</key>
 			<string>VimTypeIcon-320</string>
 			<key>UTTypeSize64IconFile</key>
 			<string>VimTypeIcon-64</string>
@@ -424,7 +428,7 @@
 			<string>Yacc Source File</string>
 			<key>UTTypeIdentifier</key>
 			<string>com.apple.xcode.yacc-source</string>
-                        <key>UTTypeSize320IconFile</key>
+			<key>UTTypeSize320IconFile</key>
 			<string>VimTypeIcon-320</string>
 			<key>UTTypeSize64IconFile</key>
 			<string>VimTypeIcon-64</string>
@@ -449,7 +453,7 @@
 			<string>Mig Definition File</string>
 			<key>UTTypeIdentifier</key>
 			<string>public.mig-source</string>
-                        <key>UTTypeSize320IconFile</key>
+			<key>UTTypeSize320IconFile</key>
 			<string>VimTypeIcon-320</string>
 			<key>UTTypeSize64IconFile</key>
 			<string>VimTypeIcon-64</string>
@@ -470,7 +474,7 @@
 			<string>Symbol Export File</string>
 			<key>UTTypeIdentifier</key>
 			<string>com.apple.symbol-export</string>
-                        <key>UTTypeSize320IconFile</key>
+			<key>UTTypeSize320IconFile</key>
 			<string>VimTypeIcon-320</string>
 			<key>UTTypeSize64IconFile</key>
 			<string>VimTypeIcon-64</string>
@@ -491,7 +495,7 @@
 			<string>Fortran Source File</string>
 			<key>UTTypeIdentifier</key>
 			<string>com.apple.xcode.fortran-source</string>
-                        <key>UTTypeSize320IconFile</key>
+			<key>UTTypeSize320IconFile</key>
 			<string>VimTypeIcon-320</string>
 			<key>UTTypeSize64IconFile</key>
 			<string>VimTypeIcon-64</string>
@@ -517,7 +521,7 @@
 			<string>Pascal Source file</string>
 			<key>UTTypeIdentifier</key>
 			<string>com.apple.xcode.pascal-source</string>
-                        <key>UTTypeSize320IconFile</key>
+			<key>UTTypeSize320IconFile</key>
 			<string>VimTypeIcon-320</string>
 			<key>UTTypeSize64IconFile</key>
 			<string>VimTypeIcon-64</string>
@@ -538,7 +542,7 @@
 			<string>Ada Source File</string>
 			<key>UTTypeIdentifier</key>
 			<string>com.apple.xcode.ada-source</string>
-                        <key>UTTypeSize320IconFile</key>
+			<key>UTTypeSize320IconFile</key>
 			<string>VimTypeIcon-320</string>
 			<key>UTTypeSize64IconFile</key>
 			<string>VimTypeIcon-64</string>
@@ -561,7 +565,7 @@
 			<string>HTML Source File</string>
 			<key>UTTypeIdentifier</key>
 			<string>public.html</string>
-                        <key>UTTypeSize320IconFile</key>
+			<key>UTTypeSize320IconFile</key>
 			<string>VimTypeIcon-320</string>
 			<key>UTTypeSize64IconFile</key>
 			<string>VimTypeIcon-64</string>
@@ -592,7 +596,7 @@
 			<string>XML Source File</string>
 			<key>UTTypeIdentifier</key>
 			<string>public.xml</string>
-                        <key>UTTypeSize320IconFile</key>
+			<key>UTTypeSize320IconFile</key>
 			<string>VimTypeIcon-320</string>
 			<key>UTTypeSize64IconFile</key>
 			<string>VimTypeIcon-64</string>
@@ -618,7 +622,7 @@
 			<string>JavaScript Source File</string>
 			<key>UTTypeIdentifier</key>
 			<string>com.netscape.javascript-source</string>
-                        <key>UTTypeSize320IconFile</key>
+			<key>UTTypeSize320IconFile</key>
 			<string>VimTypeIcon-320</string>
 			<key>UTTypeSize64IconFile</key>
 			<string>VimTypeIcon-64</string>
@@ -642,7 +646,7 @@
 			<string>Perl source</string>
 			<key>UTTypeIdentifier</key>
 			<string>public.perl-script</string>
-                        <key>UTTypeSize320IconFile</key>
+			<key>UTTypeSize320IconFile</key>
 			<string>VimTypeIcon-320</string>
 			<key>UTTypeSize64IconFile</key>
 			<string>VimTypeIcon-64</string>
@@ -666,7 +670,7 @@
 			<string>Python source</string>
 			<key>UTTypeIdentifier</key>
 			<string>public.python-script</string>
-                        <key>UTTypeSize320IconFile</key>
+			<key>UTTypeSize320IconFile</key>
 			<string>VimTypeIcon-320</string>
 			<key>UTTypeSize64IconFile</key>
 			<string>VimTypeIcon-64</string>
@@ -690,7 +694,7 @@
 			<string>PHP source</string>
 			<key>UTTypeIdentifier</key>
 			<string>public.php-script</string>
-                        <key>UTTypeSize320IconFile</key>
+			<key>UTTypeSize320IconFile</key>
 			<string>VimTypeIcon-320</string>
 			<key>UTTypeSize64IconFile</key>
 			<string>VimTypeIcon-64</string>
@@ -717,7 +721,7 @@
 			<string>Ruby source</string>
 			<key>UTTypeIdentifier</key>
 			<string>public.ruby-script</string>
-                        <key>UTTypeSize320IconFile</key>
+			<key>UTTypeSize320IconFile</key>
 			<string>VimTypeIcon-320</string>
 			<key>UTTypeSize64IconFile</key>
 			<string>VimTypeIcon-64</string>
@@ -742,7 +746,7 @@
 			<string>Shell script</string>
 			<key>UTTypeIdentifier</key>
 			<string>public.shell-script</string>
-                        <key>UTTypeSize320IconFile</key>
+			<key>UTTypeSize320IconFile</key>
 			<string>VimTypeIcon-320</string>
 			<key>UTTypeSize64IconFile</key>
 			<string>VimTypeIcon-64</string>
@@ -771,7 +775,7 @@
 			<string>Java Class File</string>
 			<key>UTTypeIdentifier</key>
 			<string>com.sun.java-class</string>
-                        <key>UTTypeSize320IconFile</key>
+			<key>UTTypeSize320IconFile</key>
 			<string>VimTypeIcon-320</string>
 			<key>UTTypeSize64IconFile</key>
 			<string>VimTypeIcon-64</string>
@@ -792,7 +796,7 @@
 			<string>Patch File</string>
 			<key>UTTypeIdentifier</key>
 			<string>org.vim.patch-file</string>
-                        <key>UTTypeSize320IconFile</key>
+			<key>UTTypeSize320IconFile</key>
 			<string>VimTypeIcon-320</string>
 			<key>UTTypeSize64IconFile</key>
 			<string>VimTypeIcon-64</string>
@@ -814,7 +818,7 @@
 			<string>Strings File</string>
 			<key>UTTypeIdentifier</key>
 			<string>com.apple.xcode.strings-text</string>
-                        <key>UTTypeSize320IconFile</key>
+			<key>UTTypeSize320IconFile</key>
 			<string>VimTypeIcon-320</string>
 			<key>UTTypeSize64IconFile</key>
 			<string>VimTypeIcon-64</string>
@@ -835,7 +839,7 @@
 			<string>AppleScript source</string>
 			<key>UTTypeIdentifier</key>
 			<string>com.apple.applescript.text</string>
-                        <key>UTTypeSize320IconFile</key>
+			<key>UTTypeSize320IconFile</key>
 			<string>VimTypeIcon-320</string>
 			<key>UTTypeSize64IconFile</key>
 			<string>VimTypeIcon-64</string>
@@ -856,7 +860,7 @@
 			<string>ActionScript source</string>
 			<key>UTTypeIdentifier</key>
 			<string>org.vim.as-file</string>
-                        <key>UTTypeSize320IconFile</key>
+			<key>UTTypeSize320IconFile</key>
 			<string>VimTypeIcon-320</string>
 			<key>UTTypeSize64IconFile</key>
 			<string>VimTypeIcon-64</string>
@@ -877,7 +881,7 @@
 			<string>ASP document</string>
 			<key>UTTypeIdentifier</key>
 			<string>org.vim.asp-file</string>
-                        <key>UTTypeSize320IconFile</key>
+			<key>UTTypeSize320IconFile</key>
 			<string>VimTypeIcon-320</string>
 			<key>UTTypeSize64IconFile</key>
 			<string>VimTypeIcon-64</string>
@@ -899,7 +903,7 @@
 			<string>ASP.NET document</string>
 			<key>UTTypeIdentifier</key>
 			<string>org.vim.aspx-file</string>
-                        <key>UTTypeSize320IconFile</key>
+			<key>UTTypeSize320IconFile</key>
 			<string>VimTypeIcon-320</string>
 			<key>UTTypeSize64IconFile</key>
 			<string>VimTypeIcon-64</string>
@@ -923,7 +927,7 @@
 			<string>BibTeX bibliography</string>
 			<key>UTTypeIdentifier</key>
 			<string>org.vim.bib-file</string>
-                        <key>UTTypeSize320IconFile</key>
+			<key>UTTypeSize320IconFile</key>
 			<string>VimTypeIcon-320</string>
 			<key>UTTypeSize64IconFile</key>
 			<string>VimTypeIcon-64</string>
@@ -944,7 +948,7 @@
 			<string>C# source</string>
 			<key>UTTypeIdentifier</key>
 			<string>org.vim.cs-file</string>
-                        <key>UTTypeSize320IconFile</key>
+			<key>UTTypeSize320IconFile</key>
 			<string>VimTypeIcon-320</string>
 			<key>UTTypeSize64IconFile</key>
 			<string>VimTypeIcon-64</string>
@@ -965,7 +969,7 @@
 			<string>Context Free Design Grammar</string>
 			<key>UTTypeIdentifier</key>
 			<string>org.vim.cfdg-file</string>
-                        <key>UTTypeSize320IconFile</key>
+			<key>UTTypeSize320IconFile</key>
 			<string>VimTypeIcon-320</string>
 			<key>UTTypeSize64IconFile</key>
 			<string>VimTypeIcon-64</string>
@@ -986,7 +990,7 @@
 			<string>Comma separated values</string>
 			<key>UTTypeIdentifier</key>
 			<string>org.vim.csv-file</string>
-                        <key>UTTypeSize320IconFile</key>
+			<key>UTTypeSize320IconFile</key>
 			<string>VimTypeIcon-320</string>
 			<key>UTTypeSize64IconFile</key>
 			<string>VimTypeIcon-64</string>
@@ -1007,7 +1011,7 @@
 			<string>Tab separated values</string>
 			<key>UTTypeIdentifier</key>
 			<string>org.vim.tsv-file</string>
-                        <key>UTTypeSize320IconFile</key>
+			<key>UTTypeSize320IconFile</key>
 			<string>VimTypeIcon-320</string>
 			<key>UTTypeSize64IconFile</key>
 			<string>VimTypeIcon-64</string>
@@ -1028,7 +1032,7 @@
 			<string>CGI script</string>
 			<key>UTTypeIdentifier</key>
 			<string>org.vim.cgi-file</string>
-                        <key>UTTypeSize320IconFile</key>
+			<key>UTTypeSize320IconFile</key>
 			<string>VimTypeIcon-320</string>
 			<key>UTTypeSize64IconFile</key>
 			<string>VimTypeIcon-64</string>
@@ -1050,7 +1054,7 @@
 			<string>Configuration file</string>
 			<key>UTTypeIdentifier</key>
 			<string>org.vim.cfg-file</string>
-                        <key>UTTypeSize320IconFile</key>
+			<key>UTTypeSize320IconFile</key>
 			<string>VimTypeIcon-320</string>
 			<key>UTTypeSize64IconFile</key>
 			<string>VimTypeIcon-64</string>
@@ -1074,7 +1078,7 @@
 			<string>Cascading style sheet</string>
 			<key>UTTypeIdentifier</key>
 			<string>org.vim.css-file</string>
-                        <key>UTTypeSize320IconFile</key>
+			<key>UTTypeSize320IconFile</key>
 			<string>VimTypeIcon-320</string>
 			<key>UTTypeSize64IconFile</key>
 			<string>VimTypeIcon-64</string>
@@ -1095,7 +1099,7 @@
 			<string>Document Type Definition</string>
 			<key>UTTypeIdentifier</key>
 			<string>org.vim.dtd-file</string>
-                        <key>UTTypeSize320IconFile</key>
+			<key>UTTypeSize320IconFile</key>
 			<string>VimTypeIcon-320</string>
 			<key>UTTypeSize64IconFile</key>
 			<string>VimTypeIcon-64</string>
@@ -1116,7 +1120,7 @@
 			<string>Dylan source</string>
 			<key>UTTypeIdentifier</key>
 			<string>org.vim.dylan-file</string>
-                        <key>UTTypeSize320IconFile</key>
+			<key>UTTypeSize320IconFile</key>
 			<string>VimTypeIcon-320</string>
 			<key>UTTypeSize64IconFile</key>
 			<string>VimTypeIcon-64</string>
@@ -1137,7 +1141,7 @@
 			<string>Erlang source</string>
 			<key>UTTypeIdentifier</key>
 			<string>org.vim.erl-file</string>
-                        <key>UTTypeSize320IconFile</key>
+			<key>UTTypeSize320IconFile</key>
 			<string>VimTypeIcon-320</string>
 			<key>UTTypeSize64IconFile</key>
 			<string>VimTypeIcon-64</string>
@@ -1159,7 +1163,7 @@
 			<string>F-Script source</string>
 			<key>UTTypeIdentifier</key>
 			<string>org.vim.fscript-file</string>
-                        <key>UTTypeSize320IconFile</key>
+			<key>UTTypeSize320IconFile</key>
 			<string>VimTypeIcon-320</string>
 			<key>UTTypeSize64IconFile</key>
 			<string>VimTypeIcon-64</string>
@@ -1180,7 +1184,7 @@
 			<string>Haskell source</string>
 			<key>UTTypeIdentifier</key>
 			<string>org.vim.hs-file</string>
-                        <key>UTTypeSize320IconFile</key>
+			<key>UTTypeSize320IconFile</key>
 			<string>VimTypeIcon-320</string>
 			<key>UTTypeSize64IconFile</key>
 			<string>VimTypeIcon-64</string>
@@ -1202,7 +1206,7 @@
 			<string>Include file</string>
 			<key>UTTypeIdentifier</key>
 			<string>org.vim.inc-file</string>
-                        <key>UTTypeSize320IconFile</key>
+			<key>UTTypeSize320IconFile</key>
 			<string>VimTypeIcon-320</string>
 			<key>UTTypeSize64IconFile</key>
 			<string>VimTypeIcon-64</string>
@@ -1223,7 +1227,7 @@
 			<string>iCalendar schedule</string>
 			<key>UTTypeIdentifier</key>
 			<string>org.vim.ics-file</string>
-                        <key>UTTypeSize320IconFile</key>
+			<key>UTTypeSize320IconFile</key>
 			<string>VimTypeIcon-320</string>
 			<key>UTTypeSize64IconFile</key>
 			<string>VimTypeIcon-64</string>
@@ -1244,7 +1248,7 @@
 			<string>MS Windows initialization file</string>
 			<key>UTTypeIdentifier</key>
 			<string>org.vim.ini-file</string>
-                        <key>UTTypeSize320IconFile</key>
+			<key>UTTypeSize320IconFile</key>
 			<string>VimTypeIcon-320</string>
 			<key>UTTypeSize64IconFile</key>
 			<string>VimTypeIcon-64</string>
@@ -1265,7 +1269,7 @@
 			<string>Io source</string>
 			<key>UTTypeIdentifier</key>
 			<string>org.vim.io-file</string>
-                        <key>UTTypeSize320IconFile</key>
+			<key>UTTypeSize320IconFile</key>
 			<string>VimTypeIcon-320</string>
 			<key>UTTypeSize64IconFile</key>
 			<string>VimTypeIcon-64</string>
@@ -1286,7 +1290,7 @@
 			<string>BeanShell script</string>
 			<key>UTTypeIdentifier</key>
 			<string>org.vim.bsh-file</string>
-                        <key>UTTypeSize320IconFile</key>
+			<key>UTTypeSize320IconFile</key>
 			<string>VimTypeIcon-320</string>
 			<key>UTTypeSize64IconFile</key>
 			<string>VimTypeIcon-64</string>
@@ -1307,7 +1311,7 @@
 			<string>Java properties file</string>
 			<key>UTTypeIdentifier</key>
 			<string>org.vim.properties-file</string>
-                        <key>UTTypeSize320IconFile</key>
+			<key>UTTypeSize320IconFile</key>
 			<string>VimTypeIcon-320</string>
 			<key>UTTypeSize64IconFile</key>
 			<string>VimTypeIcon-64</string>
@@ -1328,7 +1332,7 @@
 			<string>Java Server Page</string>
 			<key>UTTypeIdentifier</key>
 			<string>org.vim.jsp-file</string>
-                        <key>UTTypeSize320IconFile</key>
+			<key>UTTypeSize320IconFile</key>
 			<string>VimTypeIcon-320</string>
 			<key>UTTypeSize64IconFile</key>
 			<string>VimTypeIcon-64</string>
@@ -1349,7 +1353,7 @@
 			<string>LISP source</string>
 			<key>UTTypeIdentifier</key>
 			<string>org.vim.lisp-file</string>
-                        <key>UTTypeSize320IconFile</key>
+			<key>UTTypeSize320IconFile</key>
 			<string>VimTypeIcon-320</string>
 			<key>UTTypeSize64IconFile</key>
 			<string>VimTypeIcon-64</string>
@@ -1375,7 +1379,7 @@
 			<string>Log file</string>
 			<key>UTTypeIdentifier</key>
 			<string>org.vim.log-file</string>
-                        <key>UTTypeSize320IconFile</key>
+			<key>UTTypeSize320IconFile</key>
 			<string>VimTypeIcon-320</string>
 			<key>UTTypeSize64IconFile</key>
 			<string>VimTypeIcon-64</string>
@@ -1396,7 +1400,7 @@
 			<string>Mediawiki document</string>
 			<key>UTTypeIdentifier</key>
 			<string>org.vim.wiki-file</string>
-                        <key>UTTypeSize320IconFile</key>
+			<key>UTTypeSize320IconFile</key>
 			<string>VimTypeIcon-320</string>
 			<key>UTTypeSize64IconFile</key>
 			<string>VimTypeIcon-64</string>
@@ -1419,7 +1423,7 @@
 			<string>PostScript source</string>
 			<key>UTTypeIdentifier</key>
 			<string>com.adobe.postscript</string>
-                        <key>UTTypeSize320IconFile</key>
+			<key>UTTypeSize320IconFile</key>
 			<string>VimTypeIcon-320</string>
 			<key>UTTypeSize64IconFile</key>
 			<string>VimTypeIcon-64</string>
@@ -1441,7 +1445,7 @@
 			<string>Scheme source</string>
 			<key>UTTypeIdentifier</key>
 			<string>org.vim.scm-file</string>
-                        <key>UTTypeSize320IconFile</key>
+			<key>UTTypeSize320IconFile</key>
 			<string>VimTypeIcon-320</string>
 			<key>UTTypeSize64IconFile</key>
 			<string>VimTypeIcon-64</string>
@@ -1463,7 +1467,7 @@
 			<string>SQL source</string>
 			<key>UTTypeIdentifier</key>
 			<string>org.vim.sql-file</string>
-                        <key>UTTypeSize320IconFile</key>
+			<key>UTTypeSize320IconFile</key>
 			<string>VimTypeIcon-320</string>
 			<key>UTTypeSize64IconFile</key>
 			<string>VimTypeIcon-64</string>
@@ -1484,7 +1488,7 @@
 			<string>Tcl source</string>
 			<key>UTTypeIdentifier</key>
 			<string>org.vim.tcl-file</string>
-                        <key>UTTypeSize320IconFile</key>
+			<key>UTTypeSize320IconFile</key>
 			<string>VimTypeIcon-320</string>
 			<key>UTTypeSize64IconFile</key>
 			<string>VimTypeIcon-64</string>
@@ -1505,7 +1509,7 @@
 			<string>XSL stylesheet</string>
 			<key>UTTypeIdentifier</key>
 			<string>org.vim.xsl-file</string>
-                        <key>UTTypeSize320IconFile</key>
+			<key>UTTypeSize320IconFile</key>
 			<string>VimTypeIcon-320</string>
 			<key>UTTypeSize64IconFile</key>
 			<string>VimTypeIcon-64</string>
@@ -1527,7 +1531,7 @@
 			<string>Electronic business card</string>
 			<key>UTTypeIdentifier</key>
 			<string>public.vcard</string>
-                        <key>UTTypeSize320IconFile</key>
+			<key>UTTypeSize320IconFile</key>
 			<string>VimTypeIcon-320</string>
 			<key>UTTypeSize64IconFile</key>
 			<string>VimTypeIcon-64</string>
@@ -1549,7 +1553,7 @@
 			<string>Visual Basic source</string>
 			<key>UTTypeIdentifier</key>
 			<string>org.vim.vb-file</string>
-                        <key>UTTypeSize320IconFile</key>
+			<key>UTTypeSize320IconFile</key>
 			<string>VimTypeIcon-320</string>
 			<key>UTTypeSize64IconFile</key>
 			<string>VimTypeIcon-64</string>
@@ -1570,7 +1574,7 @@
 			<string>YAML document</string>
 			<key>UTTypeIdentifier</key>
 			<string>org.vim.yaml-file</string>
-                        <key>UTTypeSize320IconFile</key>
+			<key>UTTypeSize320IconFile</key>
 			<string>VimTypeIcon-320</string>
 			<key>UTTypeSize64IconFile</key>
 			<string>VimTypeIcon-64</string>
@@ -1592,7 +1596,7 @@
 			<string>GTD document</string>
 			<key>UTTypeIdentifier</key>
 			<string>org.vim.gtd-file</string>
-                        <key>UTTypeSize320IconFile</key>
+			<key>UTTypeSize320IconFile</key>
 			<string>VimTypeIcon-320</string>
 			<key>UTTypeSize64IconFile</key>
 			<string>VimTypeIcon-64</string>
@@ -1614,7 +1618,7 @@
 			<string>Markdown document</string>
 			<key>UTTypeIdentifier</key>
 			<string>net.daringfireball.markdown</string>
-                        <key>UTTypeSize320IconFile</key>
+			<key>UTTypeSize320IconFile</key>
 			<string>VimTypeIcon-320</string>
 			<key>UTTypeSize64IconFile</key>
 			<string>VimTypeIcon-64</string>
@@ -1638,7 +1642,7 @@
 			<string>reStructuredText document</string>
 			<key>UTTypeIdentifier</key>
 			<string>org.vim.rst-file</string>
-                        <key>UTTypeSize320IconFile</key>
+			<key>UTTypeSize320IconFile</key>
 			<string>VimTypeIcon-320</string>
 			<key>UTTypeSize64IconFile</key>
 			<string>VimTypeIcon-64</string>
@@ -1661,7 +1665,7 @@
 			<string>org.vim.vba-file</string>
 			<key>UTTypeReferenceURL</key>
 			<string>http://vimdoc.sourceforge.net/htmldoc/pi_vimball.html</string>
-                        <key>UTTypeSize320IconFile</key>
+			<key>UTTypeSize320IconFile</key>
 			<string>VimTypeIcon-320</string>
 			<key>UTTypeSize64IconFile</key>
 			<string>VimTypeIcon-64</string>
