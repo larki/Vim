@@ -129,6 +129,7 @@ enum blink_state {
 - (void)resizeShell;
 - (void)flush;
 - (void)blinkCursorTimer:(NSTimer *)timer;
+- (void)handleButton:(UIBarButtonItem *) sender;
 
 //@property (nonatomic, readonly) UILabel * dialogView;
 @end
@@ -188,6 +189,7 @@ enum blink_state {
     [tapGestureRecognizer release];
     
     UILongPressGestureRecognizer * longPressGestureRecognizer = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPress:)];
+
     [_textView addGestureRecognizer:longPressGestureRecognizer];
     [longPressGestureRecognizer release];
 
@@ -210,16 +212,12 @@ enum blink_state {
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(keyboardWillBeHidden:)
                                                  name:UIKeyboardWillHideNotification object:nil];
-    
-    
-   // NSMutableArray *myArray = [NSMutableArray array];
-   // self.view.inputAssistantItem.trailingBarButtonGroups = myArray;
-  //  self.view.inputAssistantItem.leadingBarButtonGroups = myArray;
-  
-    UITextInputAssistantItem *inputAssistantItem = [self.view inputAssistantItem];
+    UITextInputAssistantItem *inputAssistantItem = [self inputAssistantItem];
     inputAssistantItem.leadingBarButtonGroups = @[];
     inputAssistantItem.trailingBarButtonGroups = @[];
-    inputAssistantItem.allowsHidingShortcuts = TRUE;
+    
+
+    
     
 }
 
@@ -282,6 +280,18 @@ enum blink_state {
     NSLog(@"input: %@",sender.input);
 }
 
+- (void) handleButton:(UIBarButtonItem *)sender{
+    NSLog(@"button pressed %@", sender.title);
+
+    char command[255];
+    if([sender.title isEqualToString:@"ESC"]) {
+        command[0] = ESC;
+        command[1] = 0x0;
+    }
+    add_to_input_buf(command,1);
+    
+    
+}
 
 - (void) handleNULL:(UIKeyCommand *) sender {
     NSLog(@"input: %@",sender.input);
@@ -445,9 +455,34 @@ enum blink_state {
 }
 
 - (void)longPress:(UILongPressGestureRecognizer *)sender {
+     if (sender.state == UIGestureRecognizerStateBegan) {
     [self becomeFirstResponder];
-    CGPoint clickLocation = [sender locationInView:sender.view];
+ //   CGPoint clickLocation = [sender locationInView:sender.view];
     NSLog(@"Longpress");
+    
+     UITextInputAssistantItem *inputAssistantItem = [self inputAssistantItem];
+    
+    
+    if([inputAssistantItem.leadingBarButtonGroups count]==0) {
+    UIBarButtonItem *escButton = [[UIBarButtonItem alloc] initWithTitle:@"ESC" style:UIBarButtonItemStylePlain target:self action:@selector(handleButton:)];
+    NSArray *barButtonItems = [[NSArray alloc] initWithObjects:escButton, nil];
+    UIBarButtonItemGroup *group = [[UIBarButtonItemGroup alloc] initWithBarButtonItems:barButtonItems representativeItem:nil];
+   
+    inputAssistantItem.leadingBarButtonGroups = @[group];
+    inputAssistantItem.trailingBarButtonGroups = @[];
+
+    }
+    else {
+        inputAssistantItem.leadingBarButtonGroups = @[];
+        inputAssistantItem.trailingBarButtonGroups = @[];
+        
+    }
+    [self resignFirstResponder];
+    [self becomeFirstResponder];
+     }
+
+
+
     /*UIDocumentPickerViewController *documentPicker = [[UIDocumentPickerViewController alloc] initWithDocumentTypes:@[@"public.image"]
                                                                                                                 inMode:UIDocumentPickerModeImport];
     documentPicker.delegate = self;
@@ -520,6 +555,21 @@ enum blink_state {
                                  _textView.frame.origin.y,
                                  _textView.frame.size.width,
                                  keyboardRectInView.origin.y);
+    CGRect keyboard = [self.view convertRect:keyboardRect fromView:self.view.window];
+    CGFloat height = self.view.frame.size.height;
+    
+   /* External keyboard or not?
+   
+    if ((keyboard.origin.y + keyboard.size.height) > height) {
+        NSLog(@"External!");
+     
+    }
+    else {
+        NSLog(@"Virtual");
+    }
+
+    */
+
 }
 
 - (void)keyboardWillBeHidden:(NSNotification *)notification {
@@ -529,6 +579,7 @@ enum blink_state {
                                  _textView.frame.origin.y,
                                  _textView.frame.size.width,
                                  keyboardRectInView.origin.y);
+    NSLog(@"hidden");
 }
 
 - (void)resizeShell {
@@ -538,7 +589,6 @@ enum blink_state {
 - (void)flush {
     if(_hasBeenFlushedOnce!=YES) {
         _hasBeenFlushedOnce = YES;
-        NSLog(@"FR: %x", (int)[gui_ios.view_controller canBecomeFirstResponder]);
         [self becomeFirstResponder];
     }
     [_textView setNeedsDisplayInRect:gui_ios.dirtyRect];
@@ -841,7 +891,7 @@ gui_mch_wait_for_chars(int wtime)
     NSDate * now = [NSDate date];
     double  passed =[now timeIntervalSinceDate:gui_ios.lastKeyPress]*1000;
     if(passed <1000 )
-        wtime=5;
+        wtime=10;
         //wtime = gui_ios.wait;
     if(wtime<0)
         wtime = 4000;
