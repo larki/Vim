@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		46C44FC51BD989F3006A6180 /* VIM Launchscreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 46C44FC41BD989F3006A6180 /* VIM Launchscreen.storyboard */; };
 		5300A2BD16C74D5000E4A131 /* VimTypeIcon-22x29@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5300A2B616C74D5000E4A131 /* VimTypeIcon-22x29@2x.png */; };
 		5300A2BE16C74D5000E4A131 /* VimTypeIcon-22x29.png in Resources */ = {isa = PBXBuildFile; fileRef = 5300A2B716C74D5000E4A131 /* VimTypeIcon-22x29.png */; };
 		5300A2BF16C74D5000E4A131 /* VimTypeIcon-64.png in Resources */ = {isa = PBXBuildFile; fileRef = 5300A2B816C74D5000E4A131 /* VimTypeIcon-64.png */; };
@@ -91,6 +92,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		46C44FC41BD989F3006A6180 /* VIM Launchscreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = "VIM Launchscreen.storyboard"; sourceTree = "<group>"; };
 		5300A2B616C74D5000E4A131 /* VimTypeIcon-22x29@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "VimTypeIcon-22x29@2x.png"; sourceTree = "<group>"; };
 		5300A2B716C74D5000E4A131 /* VimTypeIcon-22x29.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "VimTypeIcon-22x29.png"; sourceTree = "<group>"; };
 		5300A2B816C74D5000E4A131 /* VimTypeIcon-64.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "VimTypeIcon-64.png"; sourceTree = "<group>"; };
@@ -1343,6 +1345,7 @@
 				7AD12B22169ACF73005BBE2E /* default-568h@2x.png */,
 				7A8CAA1D147FA3D100908FBE /* vimrc */,
 				7AE20BB2142B8D7E00848B40 /* ios_info.plist */,
+				46C44FC41BD989F3006A6180 /* VIM Launchscreen.storyboard */,
 				7AE20BB3142B8D7E00848B40 /* ios_prefix.pch */,
 			);
 			path = os_ios_rsrc;
@@ -1417,6 +1420,7 @@
 				5300A2C016C74D5000E4A131 /* VimTypeIcon-64@2x.png in Resources */,
 				5300A2C116C74D5000E4A131 /* VimTypeIcon-320.png in Resources */,
 				5300A2C216C74D5000E4A131 /* VimTypeIcon-320@2x.png in Resources */,
+				46C44FC51BD989F3006A6180 /* VIM Launchscreen.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

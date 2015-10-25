@@ -45,6 +45,7 @@ struct {
     long       blink_on;
     long       blink_off;
     NSTimer *  blink_timer;
+    NSDate  * lastKeyPress;
 } gui_ios;
 
 enum blink_state {
@@ -119,9 +120,10 @@ enum blink_state {
 @interface VimViewController : UIViewController <UIKeyInput, UITextInputTraits> {
     VimTextView * _textView;
     UIView * _dialogView;
-    UIActivityViewController * shareController;
+    UILabel * _countLabel;
     BOOL _hasBeenFlushedOnce;
 }
+@property (nonatomic) UILabel * countLabel;
 
 
 @property (nonatomic, readonly) VimTextView * textView;
@@ -129,15 +131,15 @@ enum blink_state {
 - (void)flush;
 - (void)blinkCursorTimer:(NSTimer *)timer;
 
-@property (nonatomic, readonly) UIView * dialogView;
-
+//@property (nonatomic, readonly) UILabel * dialogView;
 @end
 
 
 @implementation VimViewController
 
 @synthesize textView = _textView;
-@synthesize dialogView = _dialogView;
+@synthesize countLabel = _countLabel;
+//@synthesize dialogView = _dialogView;
 
 
 #pragma mark UIResponder
@@ -151,6 +153,9 @@ enum blink_state {
 }
 
 #pragma mark UIViewController
+- (BOOL)prefersStatusBarHidden {
+    return YES;
+}
 - (void)loadView {
     self.view = [[[UIView alloc] initWithFrame:gui_ios.window.bounds] autorelease];
     self.view.autoresizingMask = (UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight);
@@ -165,6 +170,12 @@ enum blink_state {
     NSLog(@"%f",self.view.bounds.size.height);
     _textView.autoresizingMask = (UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight);
     [self.view addSubview:_textView];
+    /*_countLabel = [[UILabel alloc] initWithFrame:CGRectMake(500, 10, 500, 15)];
+    _countLabel.text = @"Test: ";
+    _countLabel.font=[UIFont boldSystemFontOfSize:15.0];
+    _countLabel.textColor=[UIColor whiteColor];
+    _countLabel.backgroundColor=[UIColor clearColor];
+    [self.view addSubview:_countLabel];*/
     [_textView release];
 
     _hasBeenFlushedOnce = NO;
@@ -183,14 +194,14 @@ enum blink_state {
     [longPressGestureRecognizer release];
 
     UIPanGestureRecognizer * panGestureRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(pan:)];
-    panGestureRecognizer.minimumNumberOfTouches = 1;
-    panGestureRecognizer.maximumNumberOfTouches = 1;
+    panGestureRecognizer.minimumNumberOfTouches = 2;
+    panGestureRecognizer.maximumNumberOfTouches = 2;
     [_textView addGestureRecognizer:panGestureRecognizer];
     [panGestureRecognizer release];
 
     UIPanGestureRecognizer * scrollGestureRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(scroll:)];
-    scrollGestureRecognizer.minimumNumberOfTouches = 2;
-    scrollGestureRecognizer.maximumNumberOfTouches = 2;
+    scrollGestureRecognizer.minimumNumberOfTouches = 1;
+    scrollGestureRecognizer.maximumNumberOfTouches = 1;
     [_textView addGestureRecognizer:scrollGestureRecognizer];
     [scrollGestureRecognizer release];
 
@@ -231,11 +242,167 @@ enum blink_state {
 
 #pragma mark UIKeyInput
 - (BOOL)hasText {
-    return YES;
+    return NO;
+}
+- (NSArray<UIKeyCommand *>*)keyCommands {
+    return @[
+             [UIKeyCommand keyCommandWithInput:@"[" modifierFlags:UIKeyModifierControl action:@selector(handleCTRL:)],
+             [UIKeyCommand keyCommandWithInput:@"l" modifierFlags:UIKeyModifierControl action:@selector(handleCTRL:)],
+             [UIKeyCommand keyCommandWithInput:@"w" modifierFlags:UIKeyModifierControl action:@selector(handleCTRL:)],
+             [UIKeyCommand keyCommandWithInput:@"]" modifierFlags:UIKeyModifierControl action:@selector(handleCTRL:)],
+             [UIKeyCommand keyCommandWithInput:@"f" modifierFlags:UIKeyModifierControl action:@selector(handleCTRL:)],
+             [UIKeyCommand keyCommandWithInput:@"b" modifierFlags:UIKeyModifierControl action:@selector(handleCTRL:)],
+             [UIKeyCommand keyCommandWithInput:@"e" modifierFlags:UIKeyModifierControl action:@selector(handleCTRL:)],
+             [UIKeyCommand keyCommandWithInput:@"y" modifierFlags:UIKeyModifierControl action:@selector(handleCTRL:)],
+             [UIKeyCommand keyCommandWithInput:@"j" modifierFlags:UIKeyModifierControl action:@selector(handleCTRL:)],
+             [UIKeyCommand keyCommandWithInput:@"k" modifierFlags:UIKeyModifierControl action:@selector(handleCTRL:)],
+             [UIKeyCommand keyCommandWithInput:@"v" modifierFlags:UIKeyModifierControl action:@selector(handleCTRL:)],
+             [UIKeyCommand keyCommandWithInput:@"j" modifierFlags:NULL action:@selector(handleNULL:)],
+             [UIKeyCommand keyCommandWithInput:@"k" modifierFlags:NULL action:@selector(handleNULL:)],
+             [UIKeyCommand keyCommandWithInput:@"l" modifierFlags:NULL action:@selector(handleNULL:)],
+             [UIKeyCommand keyCommandWithInput:@"h" modifierFlags:NULL action:@selector(handleNULL:)],
+             [UIKeyCommand keyCommandWithInput:UIKeyInputEscape modifierFlags:NULL action:@selector(handleNULL:)],
+             [UIKeyCommand keyCommandWithInput:UIKeyInputUpArrow modifierFlags:NULL action:@selector(handleNULL:)],
+             [UIKeyCommand keyCommandWithInput:UIKeyInputDownArrow modifierFlags:NULL action:@selector(handleNULL:)],
+             [UIKeyCommand keyCommandWithInput:UIKeyInputLeftArrow modifierFlags:NULL action:@selector(handleNULL:)],
+             [UIKeyCommand keyCommandWithInput:UIKeyInputRightArrow modifierFlags:NULL action:@selector(handleNULL:)],
+             
+             [UIKeyCommand keyCommandWithInput:@"-" modifierFlags:UIKeyModifierControl action:@selector(testHandler:)]/* discoverabilityTitle:@"Protocols"],
+             [UIKeyCommand keyCommandWithInput:@"3" modifierFlags:UIKeyModifierCommand action:@selector(selectTab:) discoverabilityTitle:@"Functions"],
+             [UIKeyCommand keyCommandWithInput:@"4" modifierFlags:UIKeyModifierCommand action:@selector(selectTab:) discoverabilityTitle:@"Operators"],
+             
+             [UIKeyCommand keyCommandWithInput:@"f"
+                                 modifierFlags:UIKeyModifierCommand | UIKeyModifierAlternate
+                                        action:@selector(search:)
+                          discoverabilityTitle:@"Find…"]*/
+             ];
 }
 
+
+- (void) testHandler:(UIKeyCommand *) sender {
+    [self insertText:sender.input];
+    NSLog(@"input: %@",sender.input);
+}
+
+
+- (void) handleNULL:(UIKeyCommand *) sender {
+    NSLog(@"input: %@",sender.input);
+    gui_ios.lastKeyPress = [[NSDate alloc] initWithTimeIntervalSinceNow:0];
+
+    char command[255];
+    if([sender.input isEqualToString:@"j"])
+    {
+        command[0] = 'j';
+        command[1] = 0x0;
+    }
+    else if([sender.input isEqualToString:@"l"]) {
+        command[0] = 'l';
+        command[1] = 0x0;
+    }
+    else if([sender.input isEqualToString:@"h"]) {
+        command[0] = 'h';
+        command[1] = 0x0;
+    }
+    else if([sender.input isEqualToString:@"k"]) {
+        command[0] = 'k';
+        command[1] = 0x0;
+    }
+    else if([sender.input isEqualToString:UIKeyInputUpArrow]) {
+        command[0] = K_UP;
+        command[1] = 0x0;
+    }
+    else if([sender.input isEqualToString:UIKeyInputDownArrow]) {
+        command[0] = K_DOWN;
+        command[1] = 0x0;
+    }
+    else if([sender.input isEqualToString:UIKeyInputLeftArrow]) {
+        command[0] = K_LEFT;
+        command[1] = 0x0;
+    }
+    else if([sender.input isEqualToString:UIKeyInputRightArrow]) {
+        command[0] = K_RIGHT;
+        command[1] = 0x0;
+    }
+    else if([sender.input isEqualToString:UIKeyInputEscape])
+    {
+        command[0] = ESC;
+        command[1] = 0x0;
+    }
+    
+
+    //[self insertText:sender.input];
+   // NSUInteger length =[sender.input lengthOfBytesUsingEncoding:NSUTF8StringEncoding];
+    //add_to_input_buf((char_u*) sender.input, length);
+    add_to_input_buf(command,1);
+    [_textView setNeedsDisplayInRect:gui_ios.dirtyRect];
+
+
+}
+- (void) handleCTRL:(UIKeyCommand *) sender {
+    char command[255];
+    if([sender.input isEqualToString:@"["])
+    {
+        command[0] = ESC;
+        command[1] = 0x0;
+    }
+    if([sender.input isEqualToString:@"]"])
+    {
+        command[0] = Ctrl_RSB;
+        command[1] = 0x0;
+    }
+    if([sender.input isEqualToString:@"l"]) {
+        command[0] = Ctrl_L;
+        command[1] = 0x0;
+    }
+    if([sender.input isEqualToString:@"w"]) {
+        command[0] = Ctrl_W;
+        command[1] = 0x0;
+    }
+    if([sender.input isEqualToString:@"f"]) {
+        command[0] = Ctrl_F;
+        command[1] = 0x0;
+    }
+    if([sender.input isEqualToString:@"b"]) {
+        command[0] = Ctrl_B;
+        command[1] = 0x0;
+    }
+    if([sender.input isEqualToString:@"e"]) {
+        command[0] = Ctrl_E;
+        command[1] = 0x0;
+    }
+    if([sender.input isEqualToString:@"y"]) {
+        command[0] = Ctrl_Y;
+        command[1] = 0x0;
+    }
+    if([sender.input isEqualToString:@"j"]) {
+        command[0] = Ctrl_J;
+        command[1] = 0x0;
+    }
+    if([sender.input isEqualToString:@"k"]) {
+        command[0] = Ctrl_K;
+        command[1] = 0x0;
+    }
+  
+   add_to_input_buf(command, 1);
+    [_textView setNeedsDisplayInRect:gui_ios.dirtyRect];
+   
+
+    
+    
+    //NSString * text = @"l";
+//    add_to_input_buf_csi((char_u *)[text UTF8String], [text lengthOfBytesUsingEncoding:NSUTF8StringEncoding]);
+    //[_textView setNeedsDisplayInRect:gui_ios.dirtyRect];
+    //[self insertText:text];
+    //NSLog(@"%@", text);
+}
 - (void)insertText:(NSString *)text {
-    add_to_input_buf((char_u *)[text UTF8String], [text lengthOfBytesUsingEncoding:NSUTF8StringEncoding]);
+    if([text isEqualToString:@"\n"]){
+        NSLog(@"Enter!!");
+        char escapeString[] = {CAR, 0};
+        text = [NSString stringWithUTF8String:escapeString];
+    }
+    int length =[text lengthOfBytesUsingEncoding:NSUTF8StringEncoding];
+    add_to_input_buf((char_u *)[text UTF8String],length );
     [_textView setNeedsDisplayInRect:gui_ios.dirtyRect];
 }
 
@@ -258,19 +425,19 @@ enum blink_state {
 }
 
 
-- (void)documentPicker:(UIDocumentPickerViewController *)controller didPickDocumentAtURL:(NSURL *)url {
-    if (controller.documentPickerMode == UIDocumentPickerModeImport) {
-        NSString *alertMessage = [NSString stringWithFormat:@"Successfully imported %@", [url lastPathComponent]];
-        dispatch_async(dispatch_get_main_queue(), ^{
-            UIAlertController *alertController = [UIAlertController
-                                                  alertControllerWithTitle:@"Import"
-                                                  message:alertMessage
-                                                  preferredStyle:UIAlertControllerStyleAlert];
-            [alertController addAction:[UIAlertAction actionWithTitle:@"Ok" style:UIAlertActionStyleDefault handler:nil]];
-            [self presentViewController:alertController animated:YES completion:nil];
-        });
-    }
-}
+//- (void)documentPicker:(UIDocumentPickerViewController *)controller didPickDocumentAtURL:(NSURL *)url {
+//    if (controller.documentPickerMode == UIDocumentPickerModeImport) {
+//        NSString *alertMessage = [NSString stringWithFormat:@"Successfully imported %@", [url lastPathComponent]];
+//        dispatch_async(dispatch_get_main_queue(), ^{
+//            UIAlertController *alertController = [UIAlertController
+//                                                  alertControllerWithTitle:@"Import"
+//                                                  message:alertMessage
+//                                                  preferredStyle:UIAlertControllerStyleAlert];
+//            [alertController addAction:[UIAlertAction actionWithTitle:@"Ok" style:UIAlertActionStyleDefault handler:nil]];
+//            [self presentViewController:alertController animated:YES completion:nil];
+//        });
+//    }
+//}
 
 #pragma mark VimViewController
 - (void)click:(UITapGestureRecognizer *)sender {
@@ -373,6 +540,7 @@ enum blink_state {
 
 - (void)flush {
     _hasBeenFlushedOnce = YES;
+    [self becomeFirstResponder];
     [_textView setNeedsDisplayInRect:gui_ios.dirtyRect];
 }
 
@@ -432,6 +600,8 @@ enum blink_state {
     gui_ios.window.rootViewController = gui_ios.view_controller;
     [gui_ios.view_controller release];
     [gui_ios.window makeKeyAndVisible];
+    gui_ios.lastKeyPress = [[NSDate alloc] initWithTimeIntervalSinceNow:0];
+
 
     [self performSelectorOnMainThread:@selector(_VimMain:) withObject:url waitUntilDone:NO];
     return YES;
@@ -470,7 +640,7 @@ enum blink_state {
         vim_setenv((char_u *)"HOME", (char_u *)[[paths objectAtIndex:0] UTF8String]);
         [[NSFileManager defaultManager] changeCurrentDirectoryPath:[paths objectAtIndex:0]];
     }
-
+    
     char * argv[2] = { "vim", nil};
     int numArgs = 1;
     if (url && (url != nil) && (url.isFileURL)) {
@@ -665,10 +835,21 @@ gui_mch_flush(void)
     int
 gui_mch_wait_for_chars(int wtime)
 {
+    NSDate * now = [NSDate date];
+    double  passed =[now timeIntervalSinceDate:gui_ios.lastKeyPress]*1000;
+    if(passed <1000 )
+        wtime=5;
+        //wtime = gui_ios.wait;
+    if(wtime<0)
+        wtime = 4000;
+    
+   // NSLog(@"Wtime: %i", wtime);
+    //NSLog(@"Passed: %f", passed);
     NSDate * expirationDate = wtime > 0 ? [NSDate dateWithTimeIntervalSinceNow:((NSTimeInterval)wtime)/1000.0] : [NSDate distantFuture];
     [[NSRunLoop currentRunLoop] acceptInputForMode:NSDefaultRunLoopMode beforeDate:expirationDate];
     [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.01f]]; // This is a workaround. Without this, you cannot split the UIKeyboard
     double delay = [expirationDate timeIntervalSinceNow];
+
     return delay < 0 ? FAIL : OK;
 }
 
@@ -716,6 +897,8 @@ void gui_mch_draw_string(int row, int col, char_u *s, int len, int flags) {
         return;
     }
 
+   // NSLog(@"Draw %s ", s);
+
     CGContextRef context = CGLayerGetContext(gui_ios.layer);
 
     CGContextSetShouldAntialias(context, p_antialias);
@@ -746,6 +929,7 @@ void gui_mch_draw_string(int row, int col, char_u *s, int len, int flags) {
     // Set text position and draw the line into the graphics context
     CGContextSetTextPosition(context, TEXT_X(col), TEXT_Y(row));
     CTLineDraw(line, context);
+
 
     if (flags & DRAW_CURSOR) {
         CGContextSaveGState(context);
@@ -1216,6 +1400,7 @@ gui_mch_draw_part_cursor(int w, int h, guicolor_T color)
     CGContextFillRect(context, rect);
     gui_ios.dirtyRect = CGRectUnion(gui_ios.dirtyRect, rect);
     [gui_ios.view_controller.view setNeedsDisplayInRect:gui_ios.dirtyRect];
+
 }
 
 
@@ -1435,22 +1620,19 @@ gui_mch_browse(
     NSString *dir = [NSString stringWithFormat:@"%s", initdir];
     NSString *file = [NSString stringWithFormat:@"%s", dflt];
     NSString *path = [dir stringByAppendingString:file];
+
     NSLog(@"path: %@",path);
     NSURL *url = [NSURL fileURLWithPath:path];
-    
-    NSArray *objectsToShare = @[url];
+
     UIDocumentInteractionController *controller = [UIDocumentInteractionController interactionControllerWithURL:url];
 
     
-//    if ( [controller respondsToSelector:@selector(popoverPresentationController)] ) {
-        // iOS8
-  //      controller.popoverPresentationController.sourceView = gui_ios.view_controller.textView;
-    //}
-//    [gui_ios.view_controller presentViewController:controller animated:YES completion:nil];
+    
+    int height = gui_ios.view_controller.view.bounds.size.height;
+   
+   [controller presentOptionsMenuFromRect:CGRectMake(0,height-10,10,10) inView:gui_ios.view_controller.view animated: NO];
 
-
-   [controller presentOptionsMenuFromRect:CGRectMake(100,100,100,100) inView:gui_ios.view_controller.view animated: NO];
-    return NULL;    
+    return NULL;
 }
 #endif /* FEAT_BROWSE */
 

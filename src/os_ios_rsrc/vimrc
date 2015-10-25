@@ -2,5 +2,9 @@
 
 syntax on
 set nocompatible
-imap \ <Esc>
+
 set antialias
+command Share :browse save
+
+cmap <C-j> <Down>
+cmap <C-k> <Up>

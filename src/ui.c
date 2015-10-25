@@ -3132,6 +3132,7 @@ ui_focus_change(in_focus)
 
     if (need_redraw)
     {
+       
 	/* Something was executed, make sure the cursor is put back where it
 	 * belongs. */
 	need_wait_return = FALSE;
