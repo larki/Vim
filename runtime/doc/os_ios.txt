@@ -11,9 +11,10 @@ been mapped to the backslash key. You can customize this to fit your taste.
 
 1. General                      |ios-general|
 2. User interface               |ios-ui|
-2. iTunes files sharing         |ios-itunes|
+3.  File sharing         |ios-filesharing|
 
-Vim on the iOS has been made possible by Applidium, http://applidium.com
+Vim on the iOS has been made possible by Applidium, http://applidium.com, with
+some additional help by others; see https://github.com/applidium/Vim.
 
 ==============================================================================
 1. General	               				*ios-general*
@@ -32,19 +33,27 @@ few). Some people make the decision to add an extra row of keys, but we
 decided that Vim was flexible enough to work with only the system keyboard.
 This leaves more screen real-estate for the actual text.
 
-Unfortunately, without an escape key it's not possible to leave insert mode.
-That's why by default the backslash key ('\') is mapped to the 'Esc' key.
-You're free to overwrite this setting by unmapping the backslash key.
+However, a long-press on the main screen provides at least an escape key.
 
-Mouse events are also fully supported. Clicking and panning with a single
-finger will generate click and drag events. Panning with two fingers will
-generate scrollwheel events (horizontal and vertical). When scrolling on the
+Using an external keyboard greatly improves the experience. Most keyboard
+commands are supported, most notably ESC, CTRL-[, CTRL-W, CTRL-E, etc..
+
+Mouse events are fully supported. Clicking with a single
+finger will generate a click event. Panning with one finger will generate
+scrollwheel events. Panning with two fingers will
+generate drag events. When scrolling on the
 iPhone, the keyboard will be hidden to make more room for the text.
 
+iOS Vim is compatible with the split view and slide over features in iOS 9.
 ==============================================================================
-3. iTunes file sharing	        			*ios-itunes*
+3. File sharing	        			*ios-filesharing* *ios-itunes*
 
-Getting files in or out of Vim is currently possible thanks to iTunes. Using a
+Getting files in and out of Vim follows the standard iOS scheme: From any app
+you can copy a file to Vim via the "Open In" dialog.
+To export a file from Vim, invoke the :Share command. This will open an export
+dialog, with which you can export to most apps and also via Airdrop.
+
+Of course you can also use iTunes. Using a
 simple drag'n'drop gesture, you can add (or remove) files from your $HOME
 directory straight from iTunes. Just navigate to your iOS device, go in the
 'Apps' tab, and select 'Vim' at the bottom of the window.

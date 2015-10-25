@@ -1750,7 +1750,7 @@ intro_message(colon)
     N_("type  :help<Enter>            for on-line help"),
     N_("type  :help ios<Enter>        for iOS help    "),
     "",
-    N_("Note: <Esc> is remapped to the backslash key  "),
+    N_("Note: long-press the screen for an <ESC> key."),
 #else
     N_("type  :q<Enter>               to exit         "),
 	N_("type  :help<Enter>  or  <F1>  for on-line help"),

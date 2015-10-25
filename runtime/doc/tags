@@ -6435,6 +6435,7 @@ intro.txt	intro.txt	/*intro.txt*
 inverse	syntax.txt	/*inverse*
 ios	os_ios.txt	/*ios*
 ios-general	os_ios.txt	/*ios-general*
+ios-filesharing	os_ios.txt	/*ios-filesharing*
 ios-itunes	os_ios.txt	/*ios-itunes*
 ios-ui	os_ios.txt	/*ios-ui*
 ip	motion.txt	/*ip*
