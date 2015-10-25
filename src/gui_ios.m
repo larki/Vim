@@ -115,7 +115,7 @@ enum blink_state {
 @end
 
 #pragma mark -
-#pragma VimViewController
+#pragma mark VimViewController
 
 @interface VimViewController : UIViewController <UIKeyInput, UITextInputTraits> {
     VimTextView * _textView;
@@ -123,7 +123,6 @@ enum blink_state {
     UILabel * _countLabel;
     BOOL _hasBeenFlushedOnce;
 }
-@property (nonatomic) UILabel * countLabel;
 
 
 @property (nonatomic, readonly) VimTextView * textView;
@@ -138,7 +137,6 @@ enum blink_state {
 @implementation VimViewController
 
 @synthesize textView = _textView;
-@synthesize countLabel = _countLabel;
 //@synthesize dialogView = _dialogView;
 
 
@@ -450,7 +448,6 @@ enum blink_state {
     [self becomeFirstResponder];
     CGPoint clickLocation = [sender locationInView:sender.view];
     NSLog(@"Longpress");
-    maketitle();
     /*UIDocumentPickerViewController *documentPicker = [[UIDocumentPickerViewController alloc] initWithDocumentTypes:@[@"public.image"]
                                                                                                                 inMode:UIDocumentPickerModeImport];
     documentPicker.delegate = self;
@@ -539,8 +536,11 @@ enum blink_state {
 }
 
 - (void)flush {
-    _hasBeenFlushedOnce = YES;
-    [self becomeFirstResponder];
+    if(_hasBeenFlushedOnce!=YES) {
+        _hasBeenFlushedOnce = YES;
+        NSLog(@"FR: %x", (int)[gui_ios.view_controller canBecomeFirstResponder]);
+        [self becomeFirstResponder];
+    }
     [_textView setNeedsDisplayInRect:gui_ios.dirtyRect];
 }
 
@@ -601,9 +601,11 @@ enum blink_state {
     [gui_ios.view_controller release];
     [gui_ios.window makeKeyAndVisible];
     gui_ios.lastKeyPress = [[NSDate alloc] initWithTimeIntervalSinceNow:0];
+    [gui_ios.view_controller becomeFirstResponder];
 
 
     [self performSelectorOnMainThread:@selector(_VimMain:) withObject:url waitUntilDone:NO];
+
     return YES;
 }
 
@@ -638,6 +640,7 @@ enum blink_state {
     NSArray * paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     if (paths.count > 0) {
         vim_setenv((char_u *)"HOME", (char_u *)[[paths objectAtIndex:0] UTF8String]);
+
         [[NSFileManager defaultManager] changeCurrentDirectoryPath:[paths objectAtIndex:0]];
     }
     
